@@ -1,16 +1,13 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <SFML/Graphics.hpp>
-#include <SFML/System.hpp>
-#include <SFML/Window.hpp>
-#include <SFML/Audio.hpp>
-#include <SFML/Network.hpp>
+#include "Grid.h"
 
 class Game
 {
 private:
 	// Variables:
+	Grid grid;
 
 	// Window
 	sf::RenderWindow* window;
@@ -23,7 +20,7 @@ private:
 	void initWindow();
 
 public:
-	// Boiler Plate
+	// Contructor / Destructor
 	Game();
 	virtual ~Game();
 
@@ -33,5 +30,4 @@ public:
 	void pollEvents();
 	const bool isRunning();
 };
-
 #endif

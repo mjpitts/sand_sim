@@ -1,5 +1,5 @@
 #include "Game.h"
-
+#include <iostream>
 
 // Initializers
 void Game::initVars() {
@@ -18,6 +18,9 @@ void Game::initWindow() {
 Game::Game() {
 	this->initVars();
 	this->initWindow();
+
+	this->grid.initVars(this->videoMode);
+	this->grid.initGrid();
 }
 
 Game::~Game() {
@@ -33,6 +36,8 @@ void Game::update() {
 
 void Game::render() {
 	this->window->clear();
+
+	grid.renderGrid(this->window);
 
 	this->window->display();
 }
