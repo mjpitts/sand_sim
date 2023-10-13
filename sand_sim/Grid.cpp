@@ -10,6 +10,15 @@ Grid::~Grid() {
 
 }
 
+const float Grid::getTileSize() const{
+	return this->TILESIZE;
+}
+
+std::vector<std::vector<sf::RectangleShape>> Grid::getGridMap()
+{
+	return this->gridMap;
+}
+
 /*
 		- Initilizes the vector of rectangle shapes.
 */
@@ -55,6 +64,9 @@ void Grid::initVars(sf::VideoMode& vm){
 	}
 }
 
+/*
+	- Loop through grid map and render every rectangle
+*/
 void Grid::renderGrid(sf::RenderTarget* target){
 	for (int x = 0; x < this->mapSizeW; x++) {
 		for (int y = 0; y < this->mapSizeH; y++) {

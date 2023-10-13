@@ -23,6 +23,10 @@ public:
 	Grid();
 	virtual ~Grid();
 	
+	// Accessor 
+	const float getTileSize() const;
+	std::vector<std::vector<sf::RectangleShape>> getGridMap();
+
 	// Functions
 	void initVars(sf::VideoMode& vm);
 	void initGrid();

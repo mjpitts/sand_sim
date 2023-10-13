@@ -8,12 +8,16 @@ class Game
 private:
 	// Variables:
 	Grid grid;
+	sf::RectangleShape mouseRect;
 
 	// Window
 	sf::RenderWindow* window;
 	sf::VideoMode videoMode;
 	sf::Event eventListener;
 
+	// Mouse 
+	sf::Vector2i windowMouse;
+	sf::Vector2u gridMouse;
 
 	// Initilizers
 	void initVars();
