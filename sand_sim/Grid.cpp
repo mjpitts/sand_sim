@@ -1,7 +1,8 @@
 #include "Grid.h"
 #include <iostream>
 
-// Init size of window 
+// Constructor / Destructor
+
 Grid::Grid() {
 
 }
@@ -10,14 +11,33 @@ Grid::~Grid() {
 
 }
 
+// Accessors
+
+/*
+	- Returns tile size
+
+	Tile size is the pixel width of every tile in the grid.
+*/
 const float Grid::getTileSize() const{
+
 	return this->TILESIZE;
+
 }
 
-std::vector<std::vector<sf::RectangleShape>> Grid::getGridMap()
-{
+
+/*
+	- Returns grid map 
+
+	The grid map is a 2d vector containing all the rectangleshapes 
+	that make up the grid.
+*/
+std::vector<std::vector<sf::RectangleShape>> Grid::getGridMap(){
+
 	return this->gridMap;
+
 }
+
+// Initializers 
 
 /*
 		- Initilizes the vector of rectangle shapes.
@@ -46,6 +66,7 @@ void Grid::initGrid(){
 		appends it to the grid map vector.
 */
 void Grid::initVars(sf::VideoMode& vm){
+
 	// How many tiles in the vertical and horizontal direction
 	this->mapSizeH = vm.height / this->TILESIZE;
 	this->mapSizeW = vm.width / this->TILESIZE;
@@ -62,15 +83,24 @@ void Grid::initVars(sf::VideoMode& vm){
 		}
 		this->gridMap.push_back(gridRow);
 	}
+
 }
+
+// Functions
 
 /*
 	- Loop through grid map and render every rectangle
 */
 void Grid::renderGrid(sf::RenderTarget* target){
+
 	for (int x = 0; x < this->mapSizeW; x++) {
+
 		for (int y = 0; y < this->mapSizeH; y++) {
+
 			target->draw(gridMap[x][y]);
+
 		}
+
 	}
+
 }
