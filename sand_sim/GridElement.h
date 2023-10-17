@@ -37,6 +37,8 @@ public:
 
 	sf::Color getOutlineColor() const;
 
+	sf::RectangleShape getShape() const;
+
 	// Setters 
 	void initGridElement(sf::Vector2f screenPosition, float tileSize, sf::Color fillColor, sf::Color outlineColor);
 

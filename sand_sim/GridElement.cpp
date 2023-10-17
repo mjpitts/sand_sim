@@ -22,6 +22,10 @@ sf::Color GridElement::getOutlineColor() const {
     return this->outlineColor;
 }
 
+sf::RectangleShape GridElement::getShape() const {
+    return this->shape;
+}
+
 // Setter
 void GridElement::initGridElement(sf::Vector2f screenPos, float tileSize, sf::Color fillColor, sf::Color outColor) {
     this->screenPosition = screenPos;

@@ -18,7 +18,7 @@ private:
 	float mapSizeH = 0;
 
 	// All the tiles to be rendered.
-	std::vector<std::vector<sf::RectangleShape>> gridMap;
+	std::vector<std::vector<GridElement>> gridMap;
 
 
 public:
@@ -29,7 +29,7 @@ public:
 	
 	// Accessor 
 	const float getTileSize() const;
-	std::vector<std::vector<sf::RectangleShape>> getGridMap();
+	std::vector<std::vector<GridElement>> getGridMap();
 
 	// Init functions
 	void initVars(sf::VideoMode& vm);
