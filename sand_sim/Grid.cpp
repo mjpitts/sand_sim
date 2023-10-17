@@ -19,9 +19,7 @@ Grid::~Grid() {
 	Tile size is the pixel width of every tile in the grid.
 */
 const float Grid::getTileSize() const{
-
 	return this->TILESIZE;
-
 }
 
 
@@ -31,10 +29,9 @@ const float Grid::getTileSize() const{
 	The grid map is a 2d vector containing all the rectangleshapes 
 	that make up the grid.
 */
-std::vector<std::vector<sf::RectangleShape>> Grid::getGridMap(){
-
+std::vector<std::vector<sf::RectangleShape>> Grid::getGridMap()
+{
 	return this->gridMap;
-
 }
 
 // Initializers 
