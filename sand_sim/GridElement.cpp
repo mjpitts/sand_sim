@@ -1,3 +1,4 @@
+#include <iostream>
 #include "GridElement.h"
 
 
@@ -27,15 +28,34 @@ sf::RectangleShape GridElement::getShape() const {
 }
 
 // Setter
-void GridElement::initGridElement(sf::Vector2f screenPos, float tileSize, sf::Color fillColor, sf::Color outColor) {
+void GridElement::initGridElement(sf::Vector2f screenPos, float tileSize, elementTypes type) {
     this->screenPosition = screenPos;
     this->tileSize = tileSize;
-    this->fillColor = fillColor;
-    this->outlineColor = outColor;
+    this->type = type;
 
+    // This Block sets the visual attributes of the element
     shape.setPosition(screenPos.x, screenPos.y);
     shape.setSize(sf::Vector2f(tileSize, tileSize));
-    shape.setFillColor(fillColor);
-    shape.setOutlineColor(outColor);
     shape.setOutlineThickness(this->OUTLINE_W);
+
+    switch (type)
+    {
+    case elementTypes::EMPTY:
+        shape.setFillColor(sf::Color::Black);
+        shape.setOutlineColor(sf::Color(0, 255, 0, 50));
+        this->fillColor = sf::Color::Black;
+        this->outlineColor = sf::Color(0, 255, 0, 50);
+        break;
+
+    case elementTypes::WATER:
+        shape.setFillColor(sf::Color::Blue);
+        shape.setOutlineColor(sf::Color(0, 128, 255, 50));
+        this->fillColor = sf::Color::Blue;
+        this->outlineColor = sf::Color(0, 128, 255, 50);
+        break;
+
+    default:
+        std::cout << "ERROR: typing error in GridElement.cpp, default case reached. \n";
+        break;
+    }
 }

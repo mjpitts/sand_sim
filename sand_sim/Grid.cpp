@@ -73,11 +73,11 @@ void Grid::initGrid(){
 	for (int x = 0; x < this->mapSizeW; x++) {
 		for (int y = 0; y < this->mapSizeH; y++) {
 
+			// Set starting grid attributes
 			this->gridMap[x][y].initGridElement(
 				sf::Vector2f(x * this->TILESIZE, y * this->TILESIZE),
 				this->TILESIZE,
-				sf::Color::Black,
-				sf::Color(0, 255, 0, 50)
+				elementTypes::EMPTY
 			);
 
 		}

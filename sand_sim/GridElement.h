@@ -7,6 +7,10 @@
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 
+enum class elementTypes{
+	EMPTY, WATER
+};
+
 class GridElement
 {
 private:
@@ -23,7 +27,8 @@ private:
 	sf::Color outlineColor;
 	// Shape of gridElement
 	sf::RectangleShape shape;
-
+	// Type of grid element
+	elementTypes type;
 	
 public:
 	// Getters
@@ -40,8 +45,7 @@ public:
 	sf::RectangleShape getShape() const;
 
 	// Setters 
-	void initGridElement(sf::Vector2f screenPosition, float tileSize, sf::Color fillColor, sf::Color outlineColor);
-
+	void initGridElement(sf::Vector2f screenPosition, float tileSize, elementTypes type);
 
 };
 

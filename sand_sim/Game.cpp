@@ -49,15 +49,30 @@ void Game::update() {
 
 	// Mouse updates
 	this->windowMouse = sf::Mouse::getPosition(*this->window);
-	this->gridMouse = sf::Vector2u(
-		static_cast<unsigned>(this->windowMouse.x / grid.getTileSize()),
-		static_cast<unsigned>(this->windowMouse.y / grid.getTileSize())
-	);
 
-	std::cout << "grid mouse: " << this->gridMouse.x << " " << this->gridMouse.y << "\n";
+	// If the mouse is out of bounds, force grid cursor into the top left corner
+	if (this->windowMouse.x > 0 && this->windowMouse.y > 0 && 
+		this->windowMouse.x < this->videoMode.width && 
+		this->windowMouse.y < this->videoMode.height) {
 
+		this->gridMouse = sf::Vector2u(
+			static_cast<unsigned>(this->windowMouse.x / grid.getTileSize()),
+			static_cast<unsigned>(this->windowMouse.y / grid.getTileSize())
+		);
+
+	}
+	else {
+		this->gridMouse = sf::Vector2u(0, 0);
+	}
+
+	// Update cursor fill color
+	this->mouseRect.setFillColor(sf::Color::Transparent);
+	
 	// Update gridRect position to (gridmouse position * TILESIZE)
 	this->mouseRect.setPosition(this->gridMouse.x * grid.getTileSize(), this->gridMouse.y * grid.getTileSize());
+
+	// Print grid position for debugging
+	std::cout << "grid mouse: " << this->gridMouse.x << " " << this->gridMouse.y << "\n";
 }
 
 void Game::render() {
