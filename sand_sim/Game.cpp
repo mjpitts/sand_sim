@@ -21,10 +21,11 @@ void Game::initVars() {
 
 void Game::initWindow() {
 	// Window settings
-	this->videoMode.height = 900;
-	this->videoMode.width = 1200;
+	this->videoMode.height = 650;
+	this->videoMode.width = 900;
 
 	this->window = new sf::RenderWindow(this->videoMode, "Sand Sim", sf::Style::Titlebar | sf::Style::Close);
+	this->window->setFramerateLimit(60);
 }
 
 // Constructor / Destructor
@@ -47,6 +48,10 @@ void Game::update() {
 	// Listen for events on the top of every update
 	this->pollEvents();
 
+	// Calculate delta time and add too time since last update
+	this->setDeltaTime();
+	this->setTimeSinceRefresh(this->timeSinceRefresh + this->dt);
+
 	// Mouse updates
 	this->windowMouse = sf::Mouse::getPosition(*this->window);
 
@@ -67,12 +72,23 @@ void Game::update() {
 
 	// Update cursor fill color
 	this->mouseRect.setFillColor(sf::Color::Transparent);
+
 	
 	// Update gridRect position to (gridmouse position * TILESIZE)
 	this->mouseRect.setPosition(this->gridMouse.x * grid.getTileSize(), this->gridMouse.y * grid.getTileSize());
+	
+	// Refresh once threshold is hit
+	if (this->timeSinceRefresh >= this->blockRefreshRate) {
+
+		// Update grid, TODO: optimize
+		grid.updateGrid(this->timeSinceRefresh);
+
+
+		this->setTimeSinceRefresh(0);
+	}
 
 	// Print grid position for debugging
-	std::cout << "grid mouse: " << this->gridMouse.x << " " << this->gridMouse.y << "\n";
+	// std::cout << "grid mouse: " << this->gridMouse.x << " " << this->gridMouse.y << "\n";
 }
 
 void Game::render() {
@@ -103,10 +119,46 @@ void Game::pollEvents() {
 				this->window->close();
 			}
 			break;
+		case sf::Event::MouseButtonPressed:
+
+			// Spawn elements on left click
+			if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+				grid.spawnWater(gridMouse);
+			}
+			// Spawn sand on right mouse for now, will create menu later
+			else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+				grid.spawnSand(gridMouse);
+			}
+			break;
 		}
 	}	
+
 }
 
 const bool Game::isRunning(){
 	return this->window->isOpen();
+}
+
+// Getters 
+float Game::getTimeSinceRefresh() {
+	
+	return this->timeSinceRefresh;
+
+}
+
+float Game::getDeltaTime() {
+	
+	return this->dt;
+
+}
+
+// Setters
+void Game::setDeltaTime() {
+
+	this->dt = clock.restart().asMilliseconds();
+
+}
+
+void Game::setTimeSinceRefresh(float time) {
+	this->timeSinceRefresh = time;
 }

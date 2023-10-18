@@ -23,6 +23,14 @@ private:
 	void initVars();
 	void initWindow();
 
+	// Clock / Delta time
+	sf::Clock clock;
+	float dt;
+
+	// How fast blocks move
+	float blockRefreshRate = 50.f;
+	float timeSinceRefresh = 0.f;
+
 public:
 	// Contructor / Destructor
 	Game();
@@ -30,8 +38,22 @@ public:
 
 	// Core functions
 	void update();
+	
 	void render();
+	
 	void pollEvents();
+
 	const bool isRunning();
+
+	// Getters
+	float getTimeSinceRefresh();
+
+	float getDeltaTime();
+
+	// Setter
+	void setDeltaTime();
+
+	void setTimeSinceRefresh(float time);
 };
+
 #endif

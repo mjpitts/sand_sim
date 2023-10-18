@@ -96,10 +96,48 @@ void Grid::renderGrid(sf::RenderTarget* target){
 
 		for (int y = 0; y < this->mapSizeH; y++) {
 
-			target->draw(gridMap[x][y].getShape());
+			// Reset seen flags after update
+			this->gridMap[x][y].setSeen(false);
+
+			// Make sure switched elements switch
+			this->gridMap[x][y].updateElement();
+
+			// Render element
+			target->draw(this->gridMap[x][y].getShape());
 
 		}
 
 	}
+
+}
+
+void Grid::updateGrid(float time) {
+	for (int x = 0; x < this->mapSizeW; x++) {
+		for (int y = 0; y < this->mapSizeH; y++) {
+			
+			// Movement control if element is water
+			if (this->gridMap[x][y].getType() == elementTypes::WATER) {
+		
+				this->elementMovement.moveWater(this->gridMap, x, y, this->mapSizeW, this->mapSizeH, time);
+
+			}
+			else if (this->gridMap[x][y].getType() == elementTypes::SAND) {
+
+				this->elementMovement.moveSand(this->gridMap, x, y, this->mapSizeW, this->mapSizeH, time);
+
+			}
+		}
+	}
+}
+
+void Grid::spawnWater(sf::Vector2u spawnPos) {
+
+	this->gridMap[spawnPos.x][spawnPos.y].setType(elementTypes::WATER);
+
+}
+
+void Grid::spawnSand(sf::Vector2u spawnPos) {
+
+	this->gridMap[spawnPos.x][spawnPos.y].setType(elementTypes::SAND);
 
 }

@@ -8,7 +8,7 @@
 #include <SFML/Window.hpp>
 
 enum class elementTypes{
-	EMPTY, WATER
+	EMPTY, WATER, SAND
 };
 
 class GridElement
@@ -29,6 +29,8 @@ private:
 	sf::RectangleShape shape;
 	// Type of grid element
 	elementTypes type;
+	// Whether grid has seen this block on one loop yet
+	bool seen;
 	
 public:
 	// Getters
@@ -44,8 +46,20 @@ public:
 
 	sf::RectangleShape getShape() const;
 
-	// Setters 
+	elementTypes getType() const;
+
+	bool getSeen() const;
+
+	// Setters / Init 
 	void initGridElement(sf::Vector2f screenPosition, float tileSize, elementTypes type);
+
+	// Will be use a lot for spawning different elements
+	void setType(elementTypes type);
+
+	void setSeen(bool status);
+
+	// Update element when it is tranformed
+	void updateElement();
 
 };
 

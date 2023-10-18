@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "GridElement.h"
+#include"LogicCenter.h"
 
 class Grid
 {
@@ -11,7 +12,7 @@ private:
 		Number of pixels in heightand width per tile,
 		- Tile dim = TILESIZE x TILESIZE.
 	*/ 
-	const float TILESIZE = 25;
+	const float TILESIZE = 10;
 
 	// Number of tiles in the window, Width then Height.
 	float mapSizeW = 0;
@@ -19,6 +20,8 @@ private:
 
 	// All the tiles to be rendered.
 	std::vector<std::vector<GridElement>> gridMap;
+
+	LogicCenter elementMovement;
 
 
 public:
@@ -35,8 +38,16 @@ public:
 	void initVars(sf::VideoMode& vm);
 	void initGrid();
 
-	// Fuunctions
+	// Functions
 	void renderGrid(sf::RenderTarget* target);
+
+	void updateGrid(float time);
+
+	void spawnWater(sf::Vector2u spawnPos);
+
+	void spawnSand(sf::Vector2u spawnPos);
+
 };
+
 #endif
 
