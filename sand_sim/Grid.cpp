@@ -111,19 +111,19 @@ void Grid::renderGrid(sf::RenderTarget* target){
 
 }
 
-void Grid::updateGrid(float time) {
+void Grid::updateGrid() {
 	for (int x = 0; x < this->mapSizeW; x++) {
 		for (int y = 0; y < this->mapSizeH; y++) {
 			
 			// Movement control if element is water
 			if (this->gridMap[x][y].getType() == elementTypes::WATER) {
 		
-				this->elementMovement.moveWater(this->gridMap, x, y, this->mapSizeW, this->mapSizeH, time);
+				this->elementMovement.moveWater(this->gridMap, x, y, this->mapSizeW, this->mapSizeH);
 
 			}
 			else if (this->gridMap[x][y].getType() == elementTypes::SAND) {
 
-				this->elementMovement.moveSand(this->gridMap, x, y, this->mapSizeW, this->mapSizeH, time);
+				this->elementMovement.moveSand(this->gridMap, x, y, this->mapSizeW, this->mapSizeH);
 
 			}
 		}

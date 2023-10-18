@@ -1,8 +1,8 @@
 #include "LogicCenter.h"
 
-void LogicCenter::moveWater(std::vector<std::vector<GridElement>>& gridMap, int x, int y, float mapSizeW, float mapSizeH, float time) {
+void LogicCenter::moveWater(std::vector<std::vector<GridElement>>& gridMap, int x, int y, float mapSizeW, float mapSizeH) {
 	// As long as element isn't at the bottom, move water down. 
-	if (y + 1 < mapSizeH && time >= this->refreshTime &&
+	if (y + 1 < mapSizeH &&
 		!gridMap[x][y].getSeen() &&
 		gridMap[x][y + 1].getType() == elementTypes::EMPTY) {
 
@@ -12,7 +12,7 @@ void LogicCenter::moveWater(std::vector<std::vector<GridElement>>& gridMap, int 
 		gridMap[x][y + 1].setSeen(true);
 
 	}
-	else if (y + 1 < mapSizeH && time >= this->refreshTime &&
+	else if (y + 1 < mapSizeH &&
 		x > 0 &&
 		x + 1 < mapSizeW &&
 		!gridMap[x][y].getSeen()) {
@@ -37,9 +37,9 @@ void LogicCenter::moveWater(std::vector<std::vector<GridElement>>& gridMap, int 
 	}
 }
 
-void LogicCenter::moveSand(std::vector<std::vector<GridElement>>& gridMap, int x, int y, float mapSizeW, float mapSizeH, float time) {
+void LogicCenter::moveSand(std::vector<std::vector<GridElement>>& gridMap, int x, int y, float mapSizeW, float mapSizeH) {
 	// As long as element isn't at the bottom, move water down. 
-	if (y + 1 < mapSizeH && time >= this->refreshTime &&
+	if (y + 1 < mapSizeH &&
 		!gridMap[x][y].getSeen() &&
 		(gridMap[x][y + 1].getType() == elementTypes::EMPTY ||gridMap[x][y + 1].getType() == elementTypes::WATER)
 		) {
@@ -52,7 +52,7 @@ void LogicCenter::moveSand(std::vector<std::vector<GridElement>>& gridMap, int x
 		gridMap[x][y + 1].setSeen(true);
 
 	}
-	else if (y + 1 < mapSizeH && time >= this->refreshTime &&
+	else if (y + 1 < mapSizeH &&
 		x > 0 &&
 		x + 1 < mapSizeW &&
 		!gridMap[x][y].getSeen()) {

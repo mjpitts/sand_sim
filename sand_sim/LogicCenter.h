@@ -13,10 +13,10 @@ private:
 public:
 
 	// Controls the movement of water 
-	void moveWater(std::vector<std::vector<GridElement>>& gridMap, int x, int y, float mapSizeW, float mapSizeH, float time);
+	void moveWater(std::vector<std::vector<GridElement>>& gridMap, int x, int y, float mapSizeW, float mapSizeH);
 
 	// Controls the movement of sand
-	void moveSand(std::vector<std::vector<GridElement>>& gridMap, int x, int y, float mapSizeW, float mapSizeH, float time);
+	void moveSand(std::vector<std::vector<GridElement>>& gridMap, int x, int y, float mapSizeW, float mapSizeH);
 };
 
 #endif

@@ -43,6 +43,15 @@ Game::~Game() {
 
 
 // Functions
+
+/*
+	-Listen for closing events
+	-Calculate delta time and add it to time since refresh
+	-Update grid and reset time since refresh if treshold met
+	-Check mouse inputs
+ 
+	Called once per cycle to update all the moving parts of the sim.
+*/
 void Game::update() {
 
 	// Listen for events on the top of every update
@@ -52,12 +61,40 @@ void Game::update() {
 	this->setDeltaTime();
 	this->setTimeSinceRefresh(this->timeSinceRefresh + this->dt);
 
+	// Update mouse elements
+	this->updateMouse();
+	
+	// Refresh once threshold is hit
+	if (this->timeSinceRefresh >= this->blockRefreshRate) {
+
+		// Update grid, TODO: optimize
+		grid.updateGrid();
+
+		this->setTimeSinceRefresh(0);
+	}
+
+	// Spawn elements on left click
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+
+		grid.spawnWater(gridMouse);
+
+	}
+	// Spawn sand on right mouse for now, will create menu later
+	else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+
+		grid.spawnSand(gridMouse);
+
+	}
+
+}
+
+void Game::updateMouse() {
 	// Mouse updates
 	this->windowMouse = sf::Mouse::getPosition(*this->window);
 
 	// If the mouse is out of bounds, force grid cursor into the top left corner
-	if (this->windowMouse.x > 0 && this->windowMouse.y > 0 && 
-		this->windowMouse.x < this->videoMode.width && 
+	if (this->windowMouse.x > 0 && this->windowMouse.y > 0 &&
+		this->windowMouse.x < this->videoMode.width &&
 		this->windowMouse.y < this->videoMode.height) {
 
 		this->gridMouse = sf::Vector2u(
@@ -73,22 +110,8 @@ void Game::update() {
 	// Update cursor fill color
 	this->mouseRect.setFillColor(sf::Color::Transparent);
 
-	
 	// Update gridRect position to (gridmouse position * TILESIZE)
 	this->mouseRect.setPosition(this->gridMouse.x * grid.getTileSize(), this->gridMouse.y * grid.getTileSize());
-	
-	// Refresh once threshold is hit
-	if (this->timeSinceRefresh >= this->blockRefreshRate) {
-
-		// Update grid, TODO: optimize
-		grid.updateGrid(this->timeSinceRefresh);
-
-
-		this->setTimeSinceRefresh(0);
-	}
-
-	// Print grid position for debugging
-	// std::cout << "grid mouse: " << this->gridMouse.x << " " << this->gridMouse.y << "\n";
 }
 
 void Game::render() {
@@ -119,27 +142,18 @@ void Game::pollEvents() {
 				this->window->close();
 			}
 			break;
-		case sf::Event::MouseButtonPressed:
-
-			// Spawn elements on left click
-			if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-				grid.spawnWater(gridMouse);
-			}
-			// Spawn sand on right mouse for now, will create menu later
-			else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
-				grid.spawnSand(gridMouse);
-			}
-			break;
+		//case sf::Event::MouseButtonPressed:
+			
 		}
 	}	
 
 }
 
+// Getters 
 const bool Game::isRunning(){
 	return this->window->isOpen();
 }
 
-// Getters 
 float Game::getTimeSinceRefresh() {
 	
 	return this->timeSinceRefresh;

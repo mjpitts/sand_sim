@@ -39,6 +39,8 @@ public:
 	// Core functions
 	void update();
 	
+	void updateMouse();
+
 	void render();
 	
 	void pollEvents();

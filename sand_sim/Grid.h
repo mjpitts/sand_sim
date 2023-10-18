@@ -41,7 +41,7 @@ public:
 	// Functions
 	void renderGrid(sf::RenderTarget* target);
 
-	void updateGrid(float time);
+	void updateGrid();
 
 	void spawnWater(sf::Vector2u spawnPos);
 
