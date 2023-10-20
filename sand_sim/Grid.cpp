@@ -121,12 +121,12 @@ void Grid::updateGrid() {
 			// Movement control if element is water
 			if (this->gridMap[x][y].getType() == elementTypes::WATER) {
 		
-				this->elementMovement.moveWater(this->gridMap, x, y, this->mapSizeW, this->mapSizeH);
+				this->elementMovement.moveWater(this->gridMap, x, y);
 
 			}
 			else if (this->gridMap[x][y].getType() == elementTypes::SAND) {
 
-				this->elementMovement.moveSand(this->gridMap, x, y, this->mapSizeW, this->mapSizeH);
+				this->elementMovement.moveSand(this->gridMap, x, y);
 
 			}
 		}
