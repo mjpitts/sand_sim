@@ -43,9 +43,12 @@ public:
 
 	void updateGrid();
 
+	// Spawning / Delete handelers
 	void spawnWater(sf::Vector2u spawnPos);
 
 	void spawnSand(sf::Vector2u spawnPos);
+
+	void deleteElement(sf::Vector2u spawnPos);
 
 };
 

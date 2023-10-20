@@ -13,7 +13,7 @@ void Game::initVars() {
 
 	// Set mouseRect properties, this rectangle will act as a cursor on screen.
 	this->mouseRect.setSize(sf::Vector2f(grid.getTileSize(), grid.getTileSize()));
-	this->mouseRect.setFillColor(sf::Color::Black);
+	this->mouseRect.setFillColor(sf::Color::Transparent);
 	this->mouseRect.setOutlineThickness(1.f);
 	// Alpha set to full to contrast grid
 	this->mouseRect.setOutlineColor(sf::Color(0, 255, 0));
@@ -85,7 +85,12 @@ void Game::update() {
 		grid.spawnSand(gridMouse);
 
 	}
+	// Delete element with space button
+	else if (sf::Keyboard::isKeyPressed((sf::Keyboard::Space))) {
 
+		grid.deleteElement(gridMouse);
+
+	}
 }
 
 void Game::updateMouse() {
@@ -106,9 +111,6 @@ void Game::updateMouse() {
 	else {
 		this->gridMouse = sf::Vector2u(0, 0);
 	}
-
-	// Update cursor fill color
-	this->mouseRect.setFillColor(sf::Color::Transparent);
 
 	// Update gridRect position to (gridmouse position * TILESIZE)
 	this->mouseRect.setPosition(this->gridMouse.x * grid.getTileSize(), this->gridMouse.y * grid.getTileSize());
@@ -142,7 +144,6 @@ void Game::pollEvents() {
 				this->window->close();
 			}
 			break;
-		//case sf::Event::MouseButtonPressed:
 			
 		}
 	}	

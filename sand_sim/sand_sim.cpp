@@ -6,6 +6,9 @@ int main()
 {
     Game game;
 
+    // set seed
+    srand(123456);
+
     while (game.isRunning()) {
         // Update game
         game.update();

@@ -4,7 +4,7 @@
 // Constructor / Destructor
 
 Grid::Grid() {
-
+	
 }
 
 Grid::~Grid() {
@@ -62,6 +62,9 @@ void Grid::initVars(sf::VideoMode& vm) {
 		}
 		this->gridMap.push_back(gridRow);
 	}
+
+	this->elementMovement.setMapSizeH(this->mapSizeH);
+	this->elementMovement.setMapSizeW(this->mapSizeW);
 
 }
 
@@ -141,3 +144,11 @@ void Grid::spawnSand(sf::Vector2u spawnPos) {
 	this->gridMap[spawnPos.x][spawnPos.y].setType(elementTypes::SAND);
 
 }
+
+void Grid::deleteElement(sf::Vector2u spawnPos) {
+
+	this->gridMap[spawnPos.x][spawnPos.y].setType(elementTypes::EMPTY);
+
+}
+
+
