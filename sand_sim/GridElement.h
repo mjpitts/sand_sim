@@ -33,6 +33,7 @@ private:
 	bool seen;
 	
 public:
+
 	// Getters
 	sf::Vector2f getScreenPosition() const;
 

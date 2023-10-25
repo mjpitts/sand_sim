@@ -28,7 +28,7 @@ public:
 
 	// Constructor / Destructor
 	Grid();
-	virtual ~Grid();
+	~Grid();
 	
 	// Accessor 
 	const float getTileSize() const;

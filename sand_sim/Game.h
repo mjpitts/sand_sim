@@ -18,6 +18,7 @@ private:
 	// Mouse 
 	sf::Vector2i windowMouse;
 	sf::Vector2u gridMouse;
+	bool mouseInbounds;
 
 	// Initilizers
 	void initVars();
@@ -34,7 +35,7 @@ private:
 public:
 	// Contructor / Destructor
 	Game();
-	virtual ~Game();
+	~Game();
 
 	// Core functions
 	void update();

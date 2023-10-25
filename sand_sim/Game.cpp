@@ -2,7 +2,8 @@
 #include <iostream>
 
 // Initializers
-void Game::initVars() {
+void Game::initVars() 
+{
 
 	// Init window to null first
 	this->window = nullptr;
@@ -10,6 +11,7 @@ void Game::initVars() {
 	// Initialize to screen position, updates to window position on first frame after initWindow
 	this->windowMouse = sf::Mouse::getPosition();
 	this->gridMouse = sf::Vector2u(0, 0);
+	this->mouseInbounds = true;
 
 	// Set mouseRect properties, this rectangle will act as a cursor on screen.
 	this->mouseRect.setSize(sf::Vector2f(grid.getTileSize(), grid.getTileSize()));
@@ -19,7 +21,8 @@ void Game::initVars() {
 	this->mouseRect.setOutlineColor(sf::Color(0, 255, 0));
 }
 
-void Game::initWindow() {
+void Game::initWindow() 
+{
 	// Window settings
 	this->videoMode.height = 650;
 	this->videoMode.width = 900;
@@ -29,7 +32,8 @@ void Game::initWindow() {
 }
 
 // Constructor / Destructor
-Game::Game() {
+Game::Game() 
+{
 	this->initVars();
 	this->initWindow();
 
@@ -37,7 +41,8 @@ Game::Game() {
 	this->grid.initGrid();
 }
 
-Game::~Game() {
+Game::~Game() 
+{
 	delete this->window;
 }
 
@@ -52,7 +57,8 @@ Game::~Game() {
  
 	Called once per cycle to update all the moving parts of the sim.
 */
-void Game::update() {
+void Game::update() 
+{
 
 	// Listen for events on the top of every update
 	this->pollEvents();
@@ -65,7 +71,8 @@ void Game::update() {
 	this->updateMouse();
 	
 	// Refresh once threshold is hit
-	if (this->timeSinceRefresh >= this->blockRefreshRate) {
+	if (this->timeSinceRefresh >= this->blockRefreshRate) 
+	{
 
 		// Update grid, TODO: optimize
 		grid.updateGrid();
@@ -74,49 +81,61 @@ void Game::update() {
 	}
 
 	// Spawn elements on left click
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->mouseInbounds) 
+	{
 
 		grid.spawnWater(gridMouse);
 
 	}
 	// Spawn sand on right mouse for now, will create menu later
-	else if (sf::Mouse::isButtonPressed(sf::Mouse::Right)) {
+	else if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && this->mouseInbounds) 
+	{
 
 		grid.spawnSand(gridMouse);
 
 	}
 	// Delete element with space button
-	else if (sf::Keyboard::isKeyPressed((sf::Keyboard::Space))) {
+	else if (sf::Keyboard::isKeyPressed((sf::Keyboard::Space)) && this->mouseInbounds) 
+	{
 
 		grid.deleteElement(gridMouse);
 
 	}
 }
 
-void Game::updateMouse() {
+void Game::updateMouse() 
+{
 	// Mouse updates
 	this->windowMouse = sf::Mouse::getPosition(*this->window);
 
 	// If the mouse is out of bounds, force grid cursor into the top left corner
 	if (this->windowMouse.x > 0 && this->windowMouse.y > 0 &&
 		this->windowMouse.x < this->videoMode.width &&
-		this->windowMouse.y < this->videoMode.height) {
+		this->windowMouse.y < this->videoMode.height) 
+	{
 
 		this->gridMouse = sf::Vector2u(
 			static_cast<unsigned>(this->windowMouse.x / grid.getTileSize()),
 			static_cast<unsigned>(this->windowMouse.y / grid.getTileSize())
 		);
 
+		this->mouseInbounds = true;
+
 	}
-	else {
+	else
+	{
+
 		this->gridMouse = sf::Vector2u(0, 0);
+		this->mouseInbounds = false;
+
 	}
 
 	// Update gridRect position to (gridmouse position * TILESIZE)
 	this->mouseRect.setPosition(this->gridMouse.x * grid.getTileSize(), this->gridMouse.y * grid.getTileSize());
 }
 
-void Game::render() {
+void Game::render() 
+{
 	
 	// Clear window first
 	this->window->clear();
@@ -130,20 +149,26 @@ void Game::render() {
 	this->window->display();
 }
 
-void Game::pollEvents() {
+void Game::pollEvents() 
+{
 	// While getting events from window
-	while (this->window->pollEvent(this->eventListener)) {
+	while (this->window->pollEvent(this->eventListener)) 
+	{
 		switch (this->eventListener.type)
 		{
-		case sf::Event::Closed:
-			this->window->close();
-			break;
 
-		case sf::Event::KeyPressed:
-			if (eventListener.key.code == sf::Keyboard::Escape) {
+			case sf::Event::Closed:
+
 				this->window->close();
-			}
-			break;
+				break;
+
+			case sf::Event::KeyPressed:
+
+				if (eventListener.key.code == sf::Keyboard::Escape) 
+				{
+					this->window->close();
+				}
+				break;
 			
 		}
 	}	
@@ -151,29 +176,38 @@ void Game::pollEvents() {
 }
 
 // Getters 
-const bool Game::isRunning(){
+const bool Game::isRunning()
+{
+
 	return this->window->isOpen();
+
 }
 
-float Game::getTimeSinceRefresh() {
+float Game::getTimeSinceRefresh() 
+{
 	
 	return this->timeSinceRefresh;
 
 }
 
-float Game::getDeltaTime() {
+float Game::getDeltaTime() 
+{
 	
 	return this->dt;
 
 }
 
 // Setters
-void Game::setDeltaTime() {
+void Game::setDeltaTime() 
+{
 
 	this->dt = clock.restart().asMilliseconds();
 
 }
 
-void Game::setTimeSinceRefresh(float time) {
+void Game::setTimeSinceRefresh(float time) 
+{
+
 	this->timeSinceRefresh = time;
+
 }

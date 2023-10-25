@@ -9,6 +9,12 @@ class LogicCenter
 {
 private:
 
+	// Elements that water can pass through.
+	std::vector<elementTypes> waterMoveThrough = { elementTypes::EMPTY };
+
+	// Elements that sand can pass through.
+	std::vector<elementTypes> sandMoveThrough = { elementTypes::EMPTY, elementTypes::WATER };
+
 	float mapSizeW;
 	float mapSizeH;
 
@@ -52,12 +58,16 @@ public:
 	
 	// Equally likely to spread left or right
 	bool spreadRand(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough);
-	
-	// Try to move left a set number of blocks, settle for less if possible 
-	bool moveLeft(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough);
-	
+
 	// Try to move right a set number of blocks, settle for less if possible 
-	bool moveRight(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough);
+	bool moveRight(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough, int viscosity);
+
+	// Try to move left a set number of blocks, settle for less if possible 
+	bool moveLeft(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough, int viscosity);
+	
+	// Equally likely to moveRight or moveLeft
+	bool moveRand(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough, int viscosity);
+	
 };
 
 #endif

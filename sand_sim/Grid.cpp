@@ -3,11 +3,13 @@
 
 // Constructor / Destructor
 
-Grid::Grid() {
+Grid::Grid() 
+{
 	
 }
 
-Grid::~Grid() {
+Grid::~Grid() 
+{
 
 }
 
@@ -18,7 +20,8 @@ Grid::~Grid() {
 
 	Tile size is the pixel width of every tile in the grid.
 */
-const float Grid::getTileSize() const{
+const float Grid::getTileSize() const
+{
 	return this->TILESIZE;
 }
 
@@ -44,17 +47,20 @@ std::vector<std::vector<GridElement>> Grid::getGridMap()
 		- Creates a Vector of rectangle mapSizeW long and
 		appends it to the grid map vector.
 */
-void Grid::initVars(sf::VideoMode& vm) {
+void Grid::initVars(sf::VideoMode& vm) 
+{
 
 	// How many tiles in the vertical and horizontal direction
 	this->mapSizeH = vm.height / this->TILESIZE;
 	this->mapSizeW = vm.width / this->TILESIZE;
 
-	for (int i = 0; i < this->mapSizeW; i++) {
+	for (int i = 0; i < this->mapSizeW; i++) 
+	{
 
 		std::vector<GridElement> gridRow;
 
-		for (int j = 0; j < this->mapSizeH; j++) {
+		for (int j = 0; j < this->mapSizeH; j++) 
+		{
 
 			GridElement elem;
 			gridRow.push_back(elem);
@@ -71,10 +77,13 @@ void Grid::initVars(sf::VideoMode& vm) {
 /*
 		- Initilizes the vector of rectangle shapes.
 */
-void Grid::initGrid(){
+void Grid::initGrid()
+{
 	
-	for (int x = 0; x < this->mapSizeW; x++) {
-		for (int y = 0; y < this->mapSizeH; y++) {
+	for (int x = 0; x < this->mapSizeW; x++) 
+	{
+		for (int y = 0; y < this->mapSizeH; y++) 
+		{
 
 			// Set starting grid attributes
 			this->gridMap[x][y].initGridElement(
@@ -93,11 +102,14 @@ void Grid::initGrid(){
 /*
 	- Loop through grid map and render every rectangle
 */
-void Grid::renderGrid(sf::RenderTarget* target){
+void Grid::renderGrid(sf::RenderTarget* target)
+{
 
-	for (int x = 0; x < this->mapSizeW; x++) {
+	for (int x = 0; x < this->mapSizeW; x++) 
+	{
 
-		for (int y = 0; y < this->mapSizeH; y++) {
+		for (int y = 0; y < this->mapSizeH; y++) 
+		{
 
 			// Reset seen flags after update
 			this->gridMap[x][y].setSeen(false);
@@ -115,16 +127,20 @@ void Grid::renderGrid(sf::RenderTarget* target){
 }
 
 void Grid::updateGrid() {
-	for (int x = 0; x < this->mapSizeW; x++) {
-		for (int y = 0; y < this->mapSizeH; y++) {
+	for (int x = 0; x < this->mapSizeW; x++) 
+	{
+		for (int y = 0; y < this->mapSizeH; y++) 
+		{
 			
 			// Movement control if element is water
-			if (this->gridMap[x][y].getType() == elementTypes::WATER) {
+			if (this->gridMap[x][y].getType() == elementTypes::WATER) 
+			{
 		
 				this->elementMovement.moveWater(this->gridMap, x, y);
 
 			}
-			else if (this->gridMap[x][y].getType() == elementTypes::SAND) {
+			else if (this->gridMap[x][y].getType() == elementTypes::SAND) 
+			{
 
 				this->elementMovement.moveSand(this->gridMap, x, y);
 
@@ -133,19 +149,22 @@ void Grid::updateGrid() {
 	}
 }
 
-void Grid::spawnWater(sf::Vector2u spawnPos) {
+void Grid::spawnWater(sf::Vector2u spawnPos) 
+{
 
 	this->gridMap[spawnPos.x][spawnPos.y].setType(elementTypes::WATER);
 
 }
 
-void Grid::spawnSand(sf::Vector2u spawnPos) {
+void Grid::spawnSand(sf::Vector2u spawnPos) 
+{
 
 	this->gridMap[spawnPos.x][spawnPos.y].setType(elementTypes::SAND);
 
 }
 
-void Grid::deleteElement(sf::Vector2u spawnPos) {
+void Grid::deleteElement(sf::Vector2u spawnPos) 
+{
 
 	this->gridMap[spawnPos.x][spawnPos.y].setType(elementTypes::EMPTY);
 
