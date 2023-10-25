@@ -3,12 +3,16 @@
 // Setters
 void LogicCenter::setMapSizeW(float mapSizeW) 
 {
+
 	this->mapSizeW = mapSizeW;
+
 }
 
 void LogicCenter::setMapSizeH(float mapSizeH) 
 {
+
 	this->mapSizeH = mapSizeH;
+
 }
 
 // Functions
@@ -47,6 +51,7 @@ void LogicCenter::moveSand(std::vector<std::vector<GridElement>>& gridMap, int x
 	else if (spreadRight(gridMap, x, y, this->sandMoveThrough));
 
 	else if (spreadLeft(gridMap, x, y, this->sandMoveThrough));
+
 }
 
 bool LogicCenter::moveDown(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough) 
@@ -84,6 +89,7 @@ bool LogicCenter::moveDown(std::vector<std::vector<GridElement>>& gridMap, int x
 
 
 	return moved;
+
 }
 
 bool LogicCenter::spreadRight(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough) {
@@ -118,6 +124,7 @@ bool LogicCenter::spreadRight(std::vector<std::vector<GridElement>>& gridMap, in
 	}
 
 	return moved;
+
 }
 
 bool LogicCenter::spreadLeft(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough) 
@@ -153,6 +160,7 @@ bool LogicCenter::spreadLeft(std::vector<std::vector<GridElement>>& gridMap, int
 	}
 
 	return moved;
+
 }
 
 bool LogicCenter::spreadRand(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough) 
@@ -171,6 +179,7 @@ bool LogicCenter::spreadRand(std::vector<std::vector<GridElement>>& gridMap, int
 	}
 
 	return moved;
+
 }
 
 bool LogicCenter::moveRand(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough, int viscosity) 
@@ -187,6 +196,7 @@ bool LogicCenter::moveRand(std::vector<std::vector<GridElement>>& gridMap, int x
 	}
 
 	return moved;
+
 }
 
 bool LogicCenter::moveRight(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough, int viscosity)
@@ -209,15 +219,19 @@ bool LogicCenter::moveRight(std::vector<std::vector<GridElement>>& gridMap, int 
 				newX = this->mapSizeW - 1;
 			}
 
-			elementTypes swapType = gridMap[newX][y].getType();
-			elementTypes originType = gridMap[x][y].getType();
+			if (gridMap[newX][y].getType() == elementTypes::EMPTY) 
+			{
+				elementTypes swapType = gridMap[newX][y].getType();
+				elementTypes originType = gridMap[x][y].getType();
 
-			gridMap[newX][y].setType(originType);
-			gridMap[x][y].setType(swapType);
+				gridMap[newX][y].setType(originType);
+				gridMap[x][y].setType(swapType);
 
-			gridMap[newX][y].setSeen(true);
+				gridMap[newX][y].setSeen(true);
 
-			moved = true;
+				moved = true;
+			}
+
 		}
 		else 
 		{
@@ -226,6 +240,7 @@ bool LogicCenter::moveRight(std::vector<std::vector<GridElement>>& gridMap, int 
 	}
 
 	return moved;
+
 }
 
 bool LogicCenter::moveLeft(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough, int viscosity) 
@@ -248,15 +263,19 @@ bool LogicCenter::moveLeft(std::vector<std::vector<GridElement>>& gridMap, int x
 				newX = 0;
 			}
 
-			elementTypes swapType = gridMap[newX][y].getType();
-			elementTypes originType = gridMap[x][y].getType();
+			if (gridMap[newX][y].getType() == elementTypes::EMPTY) 
+			{
+				elementTypes swapType = gridMap[newX][y].getType();
+				elementTypes originType = gridMap[x][y].getType();
 
-			gridMap[newX][y].setType(originType);
-			gridMap[x][y].setType(swapType);
+				gridMap[newX][y].setType(originType);
+				gridMap[x][y].setType(swapType);
 
-			gridMap[newX][y].setSeen(true);
+				gridMap[newX][y].setSeen(true);
 
-			moved = true;
+				moved = true;
+			}
+
 		}
 		else 
 		{
@@ -267,5 +286,6 @@ bool LogicCenter::moveLeft(std::vector<std::vector<GridElement>>& gridMap, int x
 
 
 	return moved;
+
 }
 

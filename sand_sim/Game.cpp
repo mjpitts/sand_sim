@@ -19,6 +19,7 @@ void Game::initVars()
 	this->mouseRect.setOutlineThickness(1.f);
 	// Alpha set to full to contrast grid
 	this->mouseRect.setOutlineColor(sf::Color(0, 255, 0));
+
 }
 
 void Game::initWindow() 
@@ -29,6 +30,7 @@ void Game::initWindow()
 
 	this->window = new sf::RenderWindow(this->videoMode, "Sand Sim", sf::Style::Titlebar | sf::Style::Close);
 	this->window->setFramerateLimit(60);
+
 }
 
 // Constructor / Destructor
@@ -39,11 +41,14 @@ Game::Game()
 
 	this->grid.initVars(this->videoMode);
 	this->grid.initGrid();
+
 }
 
 Game::~Game() 
 {
+
 	delete this->window;
+
 }
 
 
@@ -101,6 +106,7 @@ void Game::update()
 		grid.deleteElement(gridMouse);
 
 	}
+
 }
 
 void Game::updateMouse() 
@@ -132,6 +138,7 @@ void Game::updateMouse()
 
 	// Update gridRect position to (gridmouse position * TILESIZE)
 	this->mouseRect.setPosition(this->gridMouse.x * grid.getTileSize(), this->gridMouse.y * grid.getTileSize());
+
 }
 
 void Game::render() 
@@ -147,6 +154,7 @@ void Game::render()
 
 	// Finally display new window
 	this->window->display();
+
 }
 
 void Game::pollEvents() 
