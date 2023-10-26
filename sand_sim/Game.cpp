@@ -4,9 +4,12 @@
 // Initializers
 void Game::initVars() 
 {
-
+	
 	// Init window to null first
 	this->window = nullptr;
+
+	// Init menuDisplayed to false;
+	this->menuDisplayed = false;
 
 	// Initialize to screen position, updates to window position on first frame after initWindow
 	this->windowMouse = sf::Mouse::getPosition();
@@ -25,8 +28,8 @@ void Game::initVars()
 void Game::initWindow() 
 {
 	// Window settings
-	this->videoMode.height = 650;
-	this->videoMode.width = 900;
+	this->videoMode.height = 650.f;
+	this->videoMode.width = 900.f;
 
 	this->window = new sf::RenderWindow(this->videoMode, "Sand Sim", sf::Style::Titlebar | sf::Style::Close);
 	this->window->setFramerateLimit(60);
@@ -41,6 +44,8 @@ Game::Game()
 
 	this->grid.initVars(this->videoMode);
 	this->grid.initGrid();
+
+	this->menu = Menu(this->grid.getTileSize(), this->videoMode.height, this->videoMode.width);
 
 }
 
@@ -149,8 +154,17 @@ void Game::render()
 
 	// Render grid
 	grid.renderGrid(this->window);
+	
 	// Render mouseRect
 	this->window->draw(this->mouseRect);
+
+	// Render menu, if conditions met
+	if (this->menuDisplayed) 
+	{
+
+		this->menu.renderMenu(this->window);
+
+	}
 
 	// Finally display new window
 	this->window->display();
@@ -175,6 +189,17 @@ void Game::pollEvents()
 				if (eventListener.key.code == sf::Keyboard::Escape) 
 				{
 					this->window->close();
+				}
+				else if(eventListener.key.code == sf::Keyboard::Enter)
+				{
+					if (this->menuDisplayed) 
+					{
+						this->menuDisplayed = false;
+					}
+					else 
+					{
+						this->menuDisplayed = true;
+					}
 				}
 				break;
 			

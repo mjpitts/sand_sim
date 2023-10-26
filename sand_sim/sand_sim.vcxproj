@@ -146,6 +146,7 @@
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="GridElement.cpp" />
     <ClCompile Include="LogicCenter.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="sand_sim.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +154,7 @@
     <ClInclude Include="Grid.h" />
     <ClInclude Include="GridElement.h" />
     <ClInclude Include="LogicCenter.h" />
+    <ClInclude Include="Menu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "Grid.h"
+#include "Menu.h"
 
 class Game
 {
@@ -9,6 +10,10 @@ private:
 	// Variables:
 	Grid grid;
 	sf::RectangleShape mouseRect;
+
+	// Menu variables
+	Menu menu;
+	bool menuDisplayed;
 
 	// Window
 	sf::RenderWindow* window;

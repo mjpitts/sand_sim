@@ -11,8 +11,10 @@ private:
 	/*
 		Number of pixels in heightand width per tile,
 		- Tile dim = TILESIZE x TILESIZE.
+
+		// NOTE: if this is changed it has to be changed in Menu.h as well
 	*/ 
-	const float TILESIZE = 10;
+	const float TILESIZE = 10.f;
 
 	// Number of tiles in the window, Width then Height.
 	float mapSizeW = 0;

@@ -15,11 +15,18 @@ void LogicCenter::setMapSizeH(float mapSizeH)
 
 }
 
-// Functions
+// Functions:
+
+// Element movement functions:
+/*
+	-Try to move down
+	-Try to move diagonal
+	-Start spreading out.
+
+	TODO: Stop trying to spreadout when trapped / increase preformance
+*/
 void LogicCenter::moveWater(std::vector<std::vector<GridElement>>& gridMap, int x, int y) 
 {
-
-	
 
 	// As long as element isn't at the bottom, move water down. 
 	if (this->moveDown(gridMap, x, y, this->waterMoveThrough));
@@ -34,11 +41,18 @@ void LogicCenter::moveWater(std::vector<std::vector<GridElement>>& gridMap, int 
 
 		else if (spreadLeft(gridMap, x, y, this->waterMoveThrough));
 
+		// Spread out randomly
 		else if (moveRand(gridMap, x, y, this->waterMoveThrough, 4));
 	}
 
 }
 
+/*
+	-Try to move down
+	-Try to move diagonal
+
+	TODO: Freeze position of set sand which can be moved again by nearby movement
+*/
 void LogicCenter::moveSand(std::vector<std::vector<GridElement>>& gridMap, int x, int y) 
 {
 
@@ -54,6 +68,8 @@ void LogicCenter::moveSand(std::vector<std::vector<GridElement>>& gridMap, int x
 
 }
 
+
+// Core movement functions:
 bool LogicCenter::moveDown(std::vector<std::vector<GridElement>>& gridMap, int x, int y, std::vector<elementTypes> moveThrough) 
 {
 
