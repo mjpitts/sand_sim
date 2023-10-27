@@ -1,5 +1,4 @@
 #include "Game.h"
-#include <iostream>
 
 // Initializers
 void Game::initVars() 
@@ -23,6 +22,9 @@ void Game::initVars()
 	// Alpha set to full to contrast grid
 	this->mouseRect.setOutlineColor(sf::Color(0, 255, 0));
 
+	// Set defualt element to water
+	this->selectedElement = elementTypes::WATER;
+
 }
 
 void Game::initWindow() 
@@ -36,15 +38,64 @@ void Game::initWindow()
 
 }
 
+void Game::initFont()
+{
+
+	this->font.loadFromFile("Fonts/PixelifySans-Bold.ttf");
+
+}
+
+void Game::initTitle()
+{
+	
+	this->title.setFont(this->font);
+	this->title.setCharacterSize(45);
+	this->title.setFillColor(sf::Color::White);
+	this->title.setString("SANDBOX");
+	this->title.setLetterSpacing(3);
+
+}
+
+void Game::initMenuText()
+{
+	// Menu header
+	this->menuHeader.setFont(this->font);
+	this->menuHeader.setCharacterSize(25);
+	this->menuHeader.setFillColor(sf::Color::White);
+	this->menuHeader.setString("ELEMENTS");
+	this->menuHeader.setLetterSpacing(2);
+
+	// Menu body text
+
+	std::stringstream ss;
+
+	ss << "[ 1 ] \tWater\n" << "[ 2 ] \tSand\n";
+
+	this->menuText.setFont(this->font);
+	this->menuText.setCharacterSize(15);
+	this->menuText.setFillColor(sf::Color::White);
+	this->menuText.setString(ss.str());
+
+}
+
+
 // Constructor / Destructor
 Game::Game() 
 {
+	// Init window and vars
 	this->initVars();
 	this->initWindow();
 
+	// Init text
+	this->initFont();
+	this->initTitle();
+	this->initMenuText();
+
+	// Init grid
 	this->grid.initVars(this->videoMode);
 	this->grid.initGrid();
 
+	// Pass window info to menu object
 	this->menu = Menu(this->grid.getTileSize(), this->videoMode.height, this->videoMode.width);
 
 }
@@ -90,18 +141,21 @@ void Game::update()
 		this->setTimeSinceRefresh(0);
 	}
 
-	// Spawn elements on left click
+	// Spawn selected element on left click
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->mouseInbounds) 
 	{
-
-		grid.spawnWater(gridMouse);
-
-	}
-	// Spawn sand on right mouse for now, will create menu later
-	else if (sf::Mouse::isButtonPressed(sf::Mouse::Right) && this->mouseInbounds) 
-	{
-
-		grid.spawnSand(gridMouse);
+		switch (this->selectedElement)
+		{
+			case elementTypes::WATER:
+				grid.spawnWater(gridMouse);
+				break;
+			case elementTypes::SAND:
+				grid.spawnSand(gridMouse);
+				break;
+			default:
+				std::cout << "ERROR: unkown element attempted to spawn\n";
+				break;
+		}
 
 	}
 	// Delete element with space button
@@ -158,11 +212,14 @@ void Game::render()
 	// Render mouseRect
 	this->window->draw(this->mouseRect);
 
+	// Always render title box
+	this->menu.renderTitle(this->window, this->title);
+
 	// Render menu, if conditions met
 	if (this->menuDisplayed) 
 	{
 
-		this->menu.renderMenu(this->window);
+		this->menu.renderMenu(this->window, this->menuText, this->menuHeader);
 
 	}
 
@@ -200,6 +257,14 @@ void Game::pollEvents()
 					{
 						this->menuDisplayed = true;
 					}
+				}
+				else if(eventListener.key.code == sf::Keyboard::Num1)
+				{
+					this->selectedElement = elementTypes::WATER;
+				}
+				else if (eventListener.key.code == sf::Keyboard::Num2)
+				{
+					this->selectedElement = elementTypes::SAND;
 				}
 				break;
 			

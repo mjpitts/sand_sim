@@ -3,6 +3,9 @@
 
 #include "Grid.h"
 #include "Menu.h"
+#include <iostream>
+#include <sstream>
+#include <string>
 
 class Game
 {
@@ -15,6 +18,14 @@ private:
 	Menu menu;
 	bool menuDisplayed;
 
+	// Fonts and Text
+	sf::Font font;
+
+	sf::Text title;
+
+	sf::Text menuHeader;
+	sf::Text menuText;
+
 	// Window
 	sf::RenderWindow* window;
 	sf::VideoMode videoMode;
@@ -25,9 +36,21 @@ private:
 	sf::Vector2u gridMouse;
 	bool mouseInbounds;
 
+	// Current element tracker
+	elementTypes selectedElement;
+
 	// Initilizers
 	void initVars();
+
 	void initWindow();
+
+	// Init title text object
+	void initTitle();
+
+	//Init menu text
+	void initMenuText();
+
+	void initFont();
 
 	// Clock / Delta time
 	sf::Clock clock;
