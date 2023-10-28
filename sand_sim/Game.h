@@ -34,6 +34,7 @@ private:
 	// Mouse 
 	sf::Vector2i windowMouse;
 	sf::Vector2u gridMouse;
+	sf::Vector2u prevGridMouse;
 	bool mouseInbounds;
 
 	// Current element tracker

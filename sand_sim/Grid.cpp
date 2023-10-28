@@ -163,6 +163,68 @@ void Grid::spawnSand(sf::Vector2u spawnPos)
 
 }
 
+void Grid::spawnWood(sf::Vector2u spawnPos, sf::Vector2u prevPos)
+{
+
+	int deltaY = static_cast<int>(spawnPos.y) - static_cast<int>(prevPos.y);
+	int deltaX = abs(static_cast<int>(spawnPos.x) - static_cast<int>(prevPos.x));
+	
+	if (deltaX != 0) 
+	{
+
+		int slope = ceil(abs(deltaY / deltaX));
+		if (deltaY < 0) 
+		{
+			slope *= -1;
+		}
+
+		int intercept = spawnPos.y - (spawnPos.x * slope);
+
+		if (prevPos.x < spawnPos.x) 
+		{
+			for (int i = prevPos.x + 1; i < spawnPos.x; i++) 
+			{
+
+				this->gridMap[i][(slope * i) + intercept].setType(elementTypes::WOOD);
+
+			}
+		}
+		else 
+		{
+			for (int i = spawnPos.x + 1; i < prevPos.x; i++) 
+			{
+
+				this->gridMap[i][(slope * i) + intercept].setType(elementTypes::WOOD);
+
+			}
+		}
+	}
+	else 
+	{
+		if (prevPos.y < spawnPos.y)
+		{
+			for (int i = prevPos.y; i <= spawnPos.y; i++)
+			{
+
+				this->gridMap[spawnPos.x][i].setType(elementTypes::WOOD);
+
+			}
+		}
+		else
+		{
+			for (int i = spawnPos.y; i <= prevPos.y; i++)
+			{
+
+				this->gridMap[spawnPos.x][i].setType(elementTypes::WOOD);
+
+			}
+		}
+	}
+
+	this->gridMap[spawnPos.x][spawnPos.y].setType(elementTypes::WOOD);
+
+}
+
 void Grid::deleteElement(sf::Vector2u spawnPos) 
 {
 

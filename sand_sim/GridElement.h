@@ -8,7 +8,7 @@
 #include <SFML/Window.hpp>
 
 enum class elementTypes{
-	EMPTY, WATER, SAND
+	EMPTY, WATER, SAND, WOOD, FIRE
 };
 
 class GridElement

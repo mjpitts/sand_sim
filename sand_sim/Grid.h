@@ -2,6 +2,7 @@
 #define GRID_H
 
 #include <vector>
+#include <cmath>
 #include "GridElement.h"
 #include"LogicCenter.h"
 
@@ -49,6 +50,8 @@ public:
 	void spawnWater(sf::Vector2u spawnPos);
 
 	void spawnSand(sf::Vector2u spawnPos);
+
+	void spawnWood(sf::Vector2u spawnPos, sf::Vector2u prevPos);
 
 	void deleteElement(sf::Vector2u spawnPos);
 

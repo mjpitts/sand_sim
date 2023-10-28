@@ -13,6 +13,7 @@ void Game::initVars()
 	// Initialize to screen position, updates to window position on first frame after initWindow
 	this->windowMouse = sf::Mouse::getPosition();
 	this->gridMouse = sf::Vector2u(0, 0);
+	this->prevGridMouse = sf::Vector2u(0, 0);
 	this->mouseInbounds = true;
 
 	// Set mouseRect properties, this rectangle will act as a cursor on screen.
@@ -69,7 +70,7 @@ void Game::initMenuText()
 
 	std::stringstream ss;
 
-	ss << "[ 1 ] \tWater\n" << "[ 2 ] \tSand\n";
+	ss << "[ 1 ] \tWater\n" << "[ 2 ] \tSand\n" << "[ 3 ] \tWood\n" << "[ 4 ] \tFire\n";
 
 	this->menuText.setFont(this->font);
 	this->menuText.setCharacterSize(15);
@@ -136,24 +137,29 @@ void Game::update()
 	{
 
 		// Update grid, TODO: optimize
-		grid.updateGrid();
+		this->grid.updateGrid();
 
 		this->setTimeSinceRefresh(0);
 	}
 
 	// Spawn selected element on left click
-	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && this->mouseInbounds) 
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) 
+		&& this->mouseInbounds 
+		&& this->grid.getGridMap()[this->gridMouse.x][this->gridMouse.y].getType() == elementTypes::EMPTY)
 	{
 		switch (this->selectedElement)
 		{
 			case elementTypes::WATER:
-				grid.spawnWater(gridMouse);
+				this->grid.spawnWater(this->gridMouse);
 				break;
 			case elementTypes::SAND:
-				grid.spawnSand(gridMouse);
+				this->grid.spawnSand(this->gridMouse);
+				break;
+			case elementTypes::WOOD:
+				this->grid.spawnWood(this->gridMouse, this->prevGridMouse);
 				break;
 			default:
-				std::cout << "ERROR: unkown element attempted to spawn\n";
+				std::cout << "ERROR: unkown element attempted to spawn. \n";
 				break;
 		}
 
@@ -162,7 +168,7 @@ void Game::update()
 	else if (sf::Keyboard::isKeyPressed((sf::Keyboard::Space)) && this->mouseInbounds) 
 	{
 
-		grid.deleteElement(gridMouse);
+		this->grid.deleteElement(this->gridMouse);
 
 	}
 
@@ -173,6 +179,8 @@ void Game::updateMouse()
 	// Mouse updates
 	this->windowMouse = sf::Mouse::getPosition(*this->window);
 
+	this->prevGridMouse = this->gridMouse;
+
 	// If the mouse is out of bounds, force grid cursor into the top left corner
 	if (this->windowMouse.x > 0 && this->windowMouse.y > 0 &&
 		this->windowMouse.x < this->videoMode.width &&
@@ -180,8 +188,8 @@ void Game::updateMouse()
 	{
 
 		this->gridMouse = sf::Vector2u(
-			static_cast<unsigned>(this->windowMouse.x / grid.getTileSize()),
-			static_cast<unsigned>(this->windowMouse.y / grid.getTileSize())
+			static_cast<unsigned>(this->windowMouse.x / this->grid.getTileSize()),
+			static_cast<unsigned>(this->windowMouse.y / this->grid.getTileSize())
 		);
 
 		this->mouseInbounds = true;
@@ -196,7 +204,7 @@ void Game::updateMouse()
 	}
 
 	// Update gridRect position to (gridmouse position * TILESIZE)
-	this->mouseRect.setPosition(this->gridMouse.x * grid.getTileSize(), this->gridMouse.y * grid.getTileSize());
+	this->mouseRect.setPosition(this->gridMouse.x * this->grid.getTileSize(), this->gridMouse.y * this->grid.getTileSize());
 
 }
 
@@ -207,7 +215,7 @@ void Game::render()
 	this->window->clear();
 
 	// Render grid
-	grid.renderGrid(this->window);
+	this->grid.renderGrid(this->window);
 	
 	// Render mouseRect
 	this->window->draw(this->mouseRect);
@@ -265,6 +273,10 @@ void Game::pollEvents()
 				else if (eventListener.key.code == sf::Keyboard::Num2)
 				{
 					this->selectedElement = elementTypes::SAND;
+				}
+				else if (eventListener.key.code == sf::Keyboard::Num3)
+				{
+					this->selectedElement = elementTypes::WOOD;
 				}
 				break;
 			

@@ -73,6 +73,13 @@ void GridElement::initGridElement(sf::Vector2f screenPos, float tileSize, elemen
         this->outlineColor = sf::Color(171, 139, 65, 50);
         break;
 
+    case elementTypes::WOOD:
+        shape.setFillColor(sf::Color(69, 45, 7));
+        shape.setOutlineColor(sf::Color(84, 55, 8, 50));
+        this->fillColor = sf::Color(205, 174, 102);
+        this->outlineColor = sf::Color(171, 139, 65, 50);
+        break;
+
     default:
         std::cout << "ERROR: typing error in GridElement.cpp, default case reached. \n";
         break;
@@ -111,6 +118,13 @@ void GridElement::updateElement() {
     case elementTypes::SAND:
         shape.setFillColor(sf::Color(205, 174, 102));
         shape.setOutlineColor(sf::Color(171, 139, 65, 50));
+        this->fillColor = sf::Color(205, 174, 102);
+        this->outlineColor = sf::Color(171, 139, 65, 50);
+        break;
+
+    case elementTypes::WOOD:
+        shape.setFillColor(sf::Color(69, 45, 7));
+        shape.setOutlineColor(sf::Color(84, 55, 8, 50));
         this->fillColor = sf::Color(205, 174, 102);
         this->outlineColor = sf::Color(171, 139, 65, 50);
         break;
