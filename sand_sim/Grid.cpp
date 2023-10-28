@@ -2,7 +2,6 @@
 #include <iostream>
 
 // Constructor / Destructor
-
 Grid::Grid() 
 {
 	
@@ -14,7 +13,6 @@ Grid::~Grid()
 }
 
 // Accessors
-
 /*
 	- Returns tile size
 
@@ -38,7 +36,6 @@ std::vector<std::vector<GridElement>> Grid::getGridMap()
 }
 
 // Initializers 
-
 // Init vars comes first, then init grid.
 
 /*
@@ -163,42 +160,61 @@ void Grid::spawnSand(sf::Vector2u spawnPos)
 
 }
 
+/*
+	-Calculate deltas
+	-Calculate slope
+	-Fill in calculated line with wood tiles
+	-Fill final destination tile
+ 
+
+	Takes the line between the last updated gridmouse position and 
+	newest gridmouse position and fills in the tiles that intersect with the 
+	line with wood tiles. 
+*/
 void Grid::spawnWood(sf::Vector2u spawnPos, sf::Vector2u prevPos)
 {
 
-	int deltaY = static_cast<int>(spawnPos.y) - static_cast<int>(prevPos.y);
-	int deltaX = abs(static_cast<int>(spawnPos.x) - static_cast<int>(prevPos.x));
-	
+	double deltaY = static_cast<int>(spawnPos.y) - static_cast<int>(prevPos.y);
+	double deltaX = static_cast<int>(spawnPos.x) - static_cast<int>(prevPos.x);
+
 	if (deltaX != 0) 
 	{
 
-		int slope = ceil(abs(deltaY / deltaX));
-		if (deltaY < 0) 
-		{
-			slope *= -1;
-		}
+		double slope = deltaY / deltaX;
 
-		int intercept = spawnPos.y - (spawnPos.x * slope);
-
+		// Mouse moved left to right
 		if (prevPos.x < spawnPos.x) 
 		{
-			for (int i = prevPos.x + 1; i < spawnPos.x; i++) 
+			for (int i = 1; i < deltaX; i++) 
 			{
-
-				this->gridMap[i][(slope * i) + intercept].setType(elementTypes::WOOD);
+				if((slope * i) + prevPos.y > 0 && (slope * i) + prevPos.y < this->mapSizeH)
+				{
+				
+					this->gridMap[prevPos.x + i][ceil((slope * i) + prevPos.y)].setType(elementTypes::WOOD);
+					this->gridMap[prevPos.x + i][floor((slope * i) + prevPos.y)].setType(elementTypes::WOOD);
+				
+				}
 
 			}
 		}
+		// Mouse moved right to left
 		else 
 		{
-			for (int i = spawnPos.x + 1; i < prevPos.x; i++) 
+			for (int i = 1; i < abs(deltaX); i++)
 			{
 
-				this->gridMap[i][(slope * i) + intercept].setType(elementTypes::WOOD);
+				if ((slope * i) + prevPos.y > 0 && (slope * i) + prevPos.y < this->mapSizeH)
+				{
+
+					this->gridMap[spawnPos.x + i][floor((slope * i) + spawnPos.y)].setType(elementTypes::WOOD);
+					this->gridMap[spawnPos.x + i][ceil((slope * i) + spawnPos.y)].setType(elementTypes::WOOD);
+
+				}
 
 			}
 		}
 	}
+	// Vertical mouse movement
 	else 
 	{
 		if (prevPos.y < spawnPos.y)
@@ -221,6 +237,7 @@ void Grid::spawnWood(sf::Vector2u spawnPos, sf::Vector2u prevPos)
 		}
 	}
 
+	// Set destination tile
 	this->gridMap[spawnPos.x][spawnPos.y].setType(elementTypes::WOOD);
 
 }
